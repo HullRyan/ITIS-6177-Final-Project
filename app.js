@@ -244,4 +244,4 @@ app.use((err, req, res, next) => {
 });
 
 //Start server
-app.listen(PORT, () => console.log("Example app listening on port 3000!"));
+app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));
