@@ -4,7 +4,12 @@ import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 
 //Import middlewares for vision api
-import { describeImageUrl, describeImageUri, ocrImageUrl, ocrImageUri } from "./middlewares/vision.js";
+import {
+	describeImageUrl,
+	describeImageUri,
+	ocrImageUrl,
+	ocrImageUri,
+} from "./middlewares/vision.js";
 
 //Import middlewares for Validation
 import { validateUrl, validateUri } from "./middlewares/validation.js";
@@ -15,17 +20,18 @@ const BASE_URL = process.env.BASE_URL || `localhost:${PORT}`;
 
 //Swagger
 const swaggerDefinition = {
-    info: {
-        title: "Vision API",
-        version: "1.0.0",
-        description: "Custom Vision API for Azure",
-    },
-    host: BASE_URL,
+	info: {
+		title: "Vision API",
+		version: "1.0.0",
+		description: "Custom Vision API for Azure",
+	},
+	host: BASE_URL,
 };
 
 const options = {
-    swaggerDefinition,
-    apis: ["./app.js"],
+	swaggerDefinition,
+	apis: ["./app.js"],
+	customCssUrl: "app.css",
 };
 
 const swaggerSpec = swaggerJSDoc(options);
@@ -35,10 +41,16 @@ const app = express();
 
 //Middleware
 // app.use(cors());
-app.use(express.json({ limit: "10mb"})); //Image/request size limit
+app.use(express.json({ limit: "10mb" })); //Image/request size limit
 
 //Routes
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(
+	"/docs",
+	swaggerUi.serve,
+	swaggerUi.setup(swaggerSpec, {
+		customCss: ".scheme-container { display: none !important }",
+	})
+);
 
 /**
  * @swagger
@@ -68,7 +80,7 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
  *         description: Internal Server Error
  */
 app.post("/describeUrl", validateUrl, describeImageUrl, async (req, res) => {
-    res.send(req.imageDescription);
+	res.send(req.imageDescription);
 });
 
 /**
@@ -99,7 +111,7 @@ app.post("/describeUrl", validateUrl, describeImageUrl, async (req, res) => {
  *         description: Internal Server Error
  */
 app.post("/describeUri", validateUri, describeImageUri, async (req, res) => {
-    res.send(req.imageDescription);
+	res.send(req.imageDescription);
 });
 
 /**
@@ -130,7 +142,7 @@ app.post("/describeUri", validateUri, describeImageUri, async (req, res) => {
  *         description: Internal Server Error
  */
 app.post("/ocrUrl", validateUrl, ocrImageUrl, async (req, res) => {
-    res.send(req.ocrResult);
+	res.send(req.ocrResult);
 });
 
 /**
@@ -161,7 +173,7 @@ app.post("/ocrUrl", validateUrl, ocrImageUrl, async (req, res) => {
  *         description: Internal Server Error
  */
 app.post("/ocrUri", validateUri, ocrImageUri, async (req, res) => {
-    res.send(req.ocrResult);
+	res.send(req.ocrResult);
 });
 
 /**
@@ -192,7 +204,7 @@ app.post("/ocrUri", validateUri, ocrImageUri, async (req, res) => {
  *         description: Internal Server Error
  */
 app.post("/textUrl", validateUrl, ocrImageUrl, async (req, res) => {
-    res.send(req.ocrResult.recognizedText);
+	res.send(req.ocrResult.recognizedText);
 });
 
 /**
@@ -223,12 +235,12 @@ app.post("/textUrl", validateUrl, ocrImageUrl, async (req, res) => {
  *         description: Internal Server Error
  */
 app.post("/textUri", validateUri, ocrImageUri, async (req, res) => {
-    res.send(req.ocrResult.recognizedText);
+	res.send(req.ocrResult.recognizedText);
 });
 
 //Format response from thrown errors
 app.use((err, req, res, next) => {
-    res.status(err.statusCode || 500).send(err.message);
+	res.status(err.statusCode || 500).send(err.message);
 });
 
 //Start server
