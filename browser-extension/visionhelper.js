@@ -35,6 +35,9 @@ const generateAlt = async () => {
 			const data = await response.json();
 			// Add the alt tag to the image
 			img.alt = data?.altText;
+            if (data?.ocrText) {
+                img.alt += '.\nText in image: ' + data?.ocrText;
+            }
 		} catch (error) {
 			console.error("Error:", error);
 		}
