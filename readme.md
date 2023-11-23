@@ -1,6 +1,11 @@
 # Azure Image Processing API
 
 Author: Ryan Hull
+
+This project is an API that uses Azure's Computer Vision services to extract information from images. You can get a description of an image, perform OCR on an image, and more. This project was created for the final project of ITIS 6177 - System Integration at UNC Charlotte.
+
+While there are many options provided from Azure Cognitive Vision, my idea and inspiration behind this project was to create an API that could be used to help developers and content creators make their websites more accessible. Hence, I chose to mainly use services to analyze images. The API can be used to generate Alt descriptions for images, which are required for accessibility. The API can also be used to scan through images on a web page and generate Alt descriptions for images that are missing them. This is done through a web extension that uses the API. See the [web extension](#vision-helper-web-extension) section for more information.
+
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 
 <!-- code_chunk_output -->
@@ -22,6 +27,7 @@ Author: Ryan Hull
       - [POST /ocrUri](#post-ocruri)
       - [POST /textUri](#post-texturi)
   - [Error Handling](#error-handling)
+  - [Software Architecture Decisions](#software-architecture-decisions)
 
 <!-- /code_chunk_output -->
 
@@ -31,15 +37,17 @@ To use this API, send a POST request to the desired endpoint with the required p
 
 ## "Vision Helper" Web Extension
 
-An extra part of my project is a web extension that will scan through images on web pages searching for missing Alt attributes. If found, it will call the [generateAlt]() API endpoint and insert the generated Alt description and OCR onto the page.  
+An extra part of my project is an example application that uses the hosted API. This is a web extension that will scan through images on web pages searching for missing Alt attributes. If found, it will call the [generateAlt]() API endpoint and insert the generated Alt description and OCR onto the page.  
 
 View the [web extension](https://github.com/HullRyan/ITIS-6177-Final-Project/tree/main/browser-extension) readme for more information and how to install it.
+
+This main API application will also serve an Example Page of Images with missing Alt attributes. You can use this page to test the web extension or the API directly at `/example`.
 
 ## API Documentation
 
 For more detailed information about the API's endpoints and their parameters, see the [Swagger documentation page](http://147.182.138.175:3000/docs).
 
-* **Note** that the API is rate limited to 10 sucessful requests per minute. If you hit this limit and see error responses, please wait a short bit and try again.
+- **Note** that the API is rate limited to 10 sucessful requests per minute. If you hit this limit and see error responses, please wait a short bit and try again.
 
 ## Installation/Self Hosting
 
@@ -257,3 +265,18 @@ If an error occurs, the API will return a response with a non-200 status code an
 }
 ```
 
+## Software Architecture Decisions
+
+To keep this project focused, I chose a limited number of services to use from Azure; Image analysis, OCR, and Text recognition. I chose these services because they are the most relevant to my idea of creating an API that can be used to help developers and content creators make their websites more accessible, as well as the most relevant to the web extension I had in mind.
+
+This project uses a Node.js server and Express to serve the routes and endpoints.
+
+You can find the main server file at `app.js`. This file sets up the Express server and routes, and also sets up the Swagger documentation page. 
+
+There are two main sources of middleware outside of `app.js`, `validation.js`, and `vision.js`. As the names suggest, `validation.js` contains middleware for validating the request body, and `vision.js` contains middleware for calling the Azure Computer Vision API.
+
+This structure was chosen to keep the code clean and organized. The `vision.js` file contains all of the code for calling the Azure API, and the `validation.js` file contains all of the code for validating the request body. This makes it easy to add new endpoints and functionality to the API, as the code for each endpoint is contained in its own file. There is also a `helpers.js` file that contains helper functions used by the other files, without needing specific imports.
+
+Error handling is handled in 2 main stages. First, my API validation that will return error responses if the request body is missing required parameters, if it is formatted incorrectly, or unexpected data types. Second, the Azure API will return error responses if the request is invalid or the API key is incorrect or rate limited. These errors are handled in the `vision.js` file, and the error responses are returned to the client.
+
+For the main hosted option I provide: The API is hosted on a Digital Ocean droplet, and the API is served using node and PM2 with `pm2 start node -- app.js`.  
