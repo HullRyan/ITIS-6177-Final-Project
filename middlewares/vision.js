@@ -8,8 +8,7 @@ import { squishTextRegions } from "./helpers.js";
 dotenv.config();
 
 //Environment variables
-const key1 = process.env.AZURE_KEY_1 || 'key not found';
-const key2 = process.env.AZURE_KEY_2;
+const key1 = process.env.AZURE_KEY || 'key not found';
 const endpoint = process.env.AZURE_ENDPOINT || 'endpoint not found';
 
 //Authenticate client
