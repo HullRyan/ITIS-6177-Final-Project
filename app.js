@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
 
 //Import middlewares for vision api
 import {
@@ -9,10 +11,18 @@ import {
 	describeImageUri,
 	ocrImageUrl,
 	ocrImageUri,
+	generateAlt,
 } from "./middlewares/vision.js";
 
 //Import middlewares for Validation
-import { validateUrl, validateUri } from "./middlewares/validation.js";
+import {
+	validateUrl,
+	validateUri,
+	validateImage,
+} from "./middlewares/validation.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 //Environment variables
 const PORT = process.env.PORT || 3000;
@@ -40,7 +50,7 @@ const swaggerSpec = swaggerJSDoc(options);
 const app = express();
 
 //Middleware
-// app.use(cors());
+app.use(cors());
 app.use(express.json({ limit: "10mb" })); //Image/request size limit
 
 //Routes
@@ -236,6 +246,15 @@ app.post("/textUrl", validateUrl, ocrImageUrl, async (req, res) => {
  */
 app.post("/textUri", validateUri, ocrImageUri, async (req, res) => {
 	res.send(req.ocrResult.recognizedText);
+});
+
+app.post("/generateAlt", validateImage, generateAlt, async (req, res) => {
+	res.send(req.altText || "Something went wrong");
+});
+
+//Extension example page
+app.get("/example", (req, res) => {
+	res.sendFile(dirname(__filename) + "/browser-extension/example.html");
 });
 
 //Format response from thrown errors

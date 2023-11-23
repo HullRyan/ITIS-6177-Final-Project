@@ -60,3 +60,53 @@ export const ocrImageUri = handleErrors(async (req, res, next) => {
     req.ocrResult = ocr;
     next();
 });
+
+// Middleware function to get image alt text
+export const generateAlt = handleErrors(async (req, res, next) => {
+    console.log(req);
+    if (req?.parsedUrl) {
+        const altText = await client.describeImage(req.parsedUrl);
+        const ocr = await client.recognizePrintedText(true, req.parsedUrl);
+        req.altText = {
+            "altText": altText?.captions?.[0]?.text || "",
+            "ocrText": squishTextRegions(ocr.regions)
+        };
+    } else if (req?.parsedUri) {
+        const altText = await client.describeImageInStream(req.parsedUri);
+        const ocr = await client.recognizePrintedTextInStream(true, req.parsedUri);
+        req.altText = {
+            "altText": altText?.captions?.[0]?.text || "",
+            "ocrText": squishTextRegions(ocr.regions)
+        };
+    }
+
+    next();
+});
+
+const getAltText = async (url) => {
+    const altText = await client.describeImage(url);
+    return altText;
+}
+
+const getAltTextInStream = async (uri) => {
+    const altText = await client.describeImageInStream(uri);
+    return altText;
+}
+
+const getOcrText = async (url) => {
+    const ocr = await client.recognizePrintedText(true, url);
+    ocr.recognizedText = {
+        "language": ocr.language,
+        "text": squishTextRegions(ocr.regions)
+    };
+    return ocr;
+}
+
+const getOcrTextInStream = async (uri) => {
+    const ocr = await client.recognizePrintedTextInStream(true, uri);
+    ocr.recognizedText = {
+        "language": ocr.language,
+        "text": squishTextRegions(ocr.regions)
+    };
+    return ocr;
+}
