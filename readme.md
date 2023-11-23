@@ -39,7 +39,7 @@ To use this API, send a POST request to the desired endpoint with the required p
 
 An extra part of my project is an example application that uses the hosted API. This is a web extension that will scan through images on web pages searching for missing Alt attributes. If found, it will call the [generateAlt]() API endpoint and insert the generated Alt description and OCR onto the page.  
 
-View the [web extension](https://github.com/HullRyan/ITIS-6177-Final-Project/tree/main/browser-extension) readme for more information and how to install it.
+View the [web extension](https://github.com/HullRyan/ITIS-6177-Final-Project/tree/main/browser-extension) readme for a demo gif, more information and how to install it.
 
 This main API application will also serve an Example Page of Images with missing Alt attributes. You can use this page to test the web extension or the API directly at `/example`.
 
