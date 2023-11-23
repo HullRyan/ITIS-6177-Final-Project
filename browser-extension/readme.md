@@ -1,8 +1,21 @@
 # Vision Helper Web Extension
 
+Author: Ryan Hull
+
 This is a web extension designed to enhance your browsing experience, by providing accurate image Alt attributes and text extraction automatically, readily available for a screen-reader.
 
 This is an extra mini-project serving as a proof of concept consuming my [Azure Vision middleware API](https://github.com/HullRyan/ITIS-6177-Final-Project).
+
+- [Vision Helper Web Extension](#vision-helper-web-extension)
+  - [Features](#features)
+  - [Demo](#demo)
+  - [Usage](#usage)
+  - [Development](#development)
+  - [Installation](#installation)
+    - [Option 1](#option-1)
+    - [Option 2](#option-2)
+    - [Option 3](#option-3)
+
 
 ## Features
 
@@ -33,6 +46,8 @@ To run the extension in development mode, run `web-ext run` in the root director
 
 ## Installation
 
+### Option 1
+
 1. Download or clone this repository to your local machine.
 2. Open the browser's extension page:
     - For Chrome, go to chrome://extensions/
@@ -40,5 +55,19 @@ To run the extension in development mode, run `web-ext run` in the root director
 3. Enable Developer mode (for Chrome) or Debug Add-ons (for Firefox).
 4. Click on "Load Unpacked" (for Chrome) or "Load Temporary Add-on" (for Firefox).
 5. Navigate to the directory where you cloned the repository and select it.
+
+### Option 2
+
+1. Browse to web-ext-artifacts and download the latest zip file.
+2. Open the browser's extension page:
+    - For Chrome, go to chrome://extensions/
+    - For Firefox, go to about:addons
+3. Install the extension by dragging the zip file onto the page.
+
+### Option 3
+
+1. Download or clone this repository to your local machine.
+2. Build the extension by running `web-ext build` in the root directory.
+3. Install the output .zip using Option 2 above.
 
 The extension should now be installed and ready to use!  
