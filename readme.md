@@ -4,11 +4,15 @@ This API uses Azure's Computer Vision services to extract information from image
 
 ## Getting Started
 
-To use this API, send a POST request to the desired endpoint with the required parameters in the request body. You can use any HTTP client, such as curl or Postman, to send requests to the API. For the easiest approach, you can use the [Swagger documentation page]() to send requests to the API.
+To use this API, send a POST request to the desired endpoint with the required parameters in the request body. You can use any HTTP client, such as curl or Postman, to send requests to the API. For the easiest approach, you can use the [Swagger documentation page](http://147.182.138.175:3000/docs) to send requests to the API.
+
+## Web Extension
+
+An extra part of my project is You can use the [web extension]()
 
 ## API Documentation
 
-For more detailed information about the API's endpoints and their parameters, see the [Swagger documentation page]().
+For more detailed information about the API's endpoints and their parameters, see the [Swagger documentation page](http://147.182.138.175:3000/docs).
 
 * Note that the API is rate limited to 10 sucessful requests per minute.
 
