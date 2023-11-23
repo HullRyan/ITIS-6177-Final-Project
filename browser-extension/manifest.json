@@ -14,6 +14,7 @@
                 "<all_urls>"
             ],
             "js": [
+                "browser-polyfill.min.js",
                 "visionhelper.js"
             ],
             "run_at": "document_end"
@@ -22,7 +23,11 @@
     "permissions": [
         "activeTab",
         "storage",
-        "*://localhost:3000/*",
-        "webRequest"
+        "*://localhost:3000*",
+        "*://*/*",
+        "http://147.182.138.175/*",
+        "http://147.182.138.175:3000*",
+        "webRequest",
+        "https://api.publicapis.org/*"
     ]
 }
