@@ -83,6 +83,7 @@ export const generateAlt = handleErrors(async (req, res, next) => {
     next();
 });
 
+// Helper Vision functions
 const getAltText = async (url) => {
     const altText = await client.describeImage(url);
     return altText;

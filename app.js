@@ -248,6 +248,37 @@ app.post("/textUri", validateUri, ocrImageUri, async (req, res) => {
 	res.send(req.ocrResult.recognizedText);
 });
 
+/**
+ * @swagger
+ * /generateAlt:
+ *   post:
+ *     description: Generate alternative text for an image. Returns image description and OCR text.
+ *     tags: [Alt Text Generation]
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: image
+ *         description: Image data.
+ *         in: body
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             url:
+ *               type: string
+ *               example: https://i.pinimg.com/originals/8e/84/d3/8e84d32d038c8c211aea8612234e0af7.png
+ *             uri:
+ *               type: string
+ *               example: 
+ * 			
+ *     responses:
+ *       200:
+ *         description: Generated alternative text
+ *       400:
+ *         description: Invalid image data
+ *       500:
+ *         description: Internal Server Error
+ */
 app.post("/generateAlt", validateImage, generateAlt, async (req, res) => {
 	res.send(req.altText || "Something went wrong");
 });
