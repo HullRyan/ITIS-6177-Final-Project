@@ -15,7 +15,8 @@ While there are many options provided from Azure Cognitive Vision, my idea and i
   - ["Vision Helper" Web Extension](#vision-helper-web-extension)
   - [API Documentation](#api-documentation)
   - [Installation/Self Hosting](#installationself-hosting)
-  - [Endpoints](#endpoints)
+  - [Software Architecture Decisions](#software-architecture-decisions)
+  - [API Endpoints](#api-endpoints)
     - [URL or URI](#url-or-uri)
       - [POST /generateAlt](#post-generatealt)
     - [URL](#url)
@@ -27,7 +28,6 @@ While there are many options provided from Azure Cognitive Vision, my idea and i
       - [POST /ocrUri](#post-ocruri)
       - [POST /textUri](#post-texturi)
   - [Error Handling](#error-handling)
-  - [Software Architecture Decisions](#software-architecture-decisions)
 
 <!-- /code_chunk_output -->
 
@@ -72,7 +72,23 @@ You're running!
 
 To use your hosted API, send a POST request to the desired endpoint with the required parameters in the request body. For the easiest approach, you can use the Swagger Documentation page to send requests to the API, which will be hosted locally at your IP (if set) or Localhost:Port `/docs`.
 
-## Endpoints
+## Software Architecture Decisions
+
+To keep this project focused, I chose a limited number of services to use from Azure; Image analysis, OCR, and Text recognition. I chose these services because they are the most relevant to my idea of creating an API that can be used to help developers and content creators make their websites more accessible, as well as the most relevant to the web extension I had in mind.
+
+This project uses a Node.js server and Express to serve the routes and endpoints.
+
+You can find the main server file at `app.js`. This file sets up the Express server and routes, and also sets up the Swagger documentation page. 
+
+There are two main sources of middleware outside of `app.js`, `validation.js`, and `vision.js`. As the names suggest, `validation.js` contains middleware for validating the request body, and `vision.js` contains middleware for calling the Azure Computer Vision API.
+
+This structure was chosen to keep the code clean and organized. The `vision.js` file contains all of the code for calling the Azure API, and the `validation.js` file contains all of the code for validating the request body. This makes it easy to add new endpoints and functionality to the API, as the code for each endpoint is contained in its own file. There is also a `helpers.js` file that contains helper functions used by the other files, without needing specific imports.
+
+Error handling is handled in 2 main stages. First, my API validation that will return error responses if the request body is missing required parameters, if it is formatted incorrectly, or unexpected data types. Second, the Azure API will return error responses if the request is invalid or the API key is incorrect or rate limited. These errors are handled in the `vision.js` file, and the error responses are returned to the client.
+
+For the main hosted option I provide: The API is hosted on a Digital Ocean droplet, and the API is served using node and PM2 with `pm2 start node -- app.js`.  
+
+## API Endpoints
 
 ### URL or URI 
 
@@ -264,19 +280,3 @@ If an error occurs, the API will return a response with a non-200 status code an
     "message": "No url provided"
 }
 ```
-
-## Software Architecture Decisions
-
-To keep this project focused, I chose a limited number of services to use from Azure; Image analysis, OCR, and Text recognition. I chose these services because they are the most relevant to my idea of creating an API that can be used to help developers and content creators make their websites more accessible, as well as the most relevant to the web extension I had in mind.
-
-This project uses a Node.js server and Express to serve the routes and endpoints.
-
-You can find the main server file at `app.js`. This file sets up the Express server and routes, and also sets up the Swagger documentation page. 
-
-There are two main sources of middleware outside of `app.js`, `validation.js`, and `vision.js`. As the names suggest, `validation.js` contains middleware for validating the request body, and `vision.js` contains middleware for calling the Azure Computer Vision API.
-
-This structure was chosen to keep the code clean and organized. The `vision.js` file contains all of the code for calling the Azure API, and the `validation.js` file contains all of the code for validating the request body. This makes it easy to add new endpoints and functionality to the API, as the code for each endpoint is contained in its own file. There is also a `helpers.js` file that contains helper functions used by the other files, without needing specific imports.
-
-Error handling is handled in 2 main stages. First, my API validation that will return error responses if the request body is missing required parameters, if it is formatted incorrectly, or unexpected data types. Second, the Azure API will return error responses if the request is invalid or the API key is incorrect or rate limited. These errors are handled in the `vision.js` file, and the error responses are returned to the client.
-
-For the main hosted option I provide: The API is hosted on a Digital Ocean droplet, and the API is served using node and PM2 with `pm2 start node -- app.js`.  
