@@ -11,7 +11,7 @@ This is an extra mini-project serving as a proof of concept consuming my [Azure 
 
 ## Demo
 
-
+![Demo](./demo.gif)
 
 ## Usage
 
@@ -41,13 +41,4 @@ To run the extension in development mode, run `web-ext run` in the root director
 4. Click on "Load Unpacked" (for Chrome) or "Load Temporary Add-on" (for Firefox).
 5. Navigate to the directory where you cloned the repository and select it.
 
-The extension should now be installed and ready to use!
-
-
-## Contributing
-
-We welcome contributions! Please see our contributing guide for details.
-
-## License
-
-This project is licensed under the terms of the MIT license.
+The extension should now be installed and ready to use!  
