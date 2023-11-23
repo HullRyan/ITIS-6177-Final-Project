@@ -36,6 +36,8 @@ This is an extra mini-project serving as a proof of concept consuming my [Azure 
 
 ## Development
 
+All code is provided in `visionhelper.js`. This is a very simple extension, with one `onload` Event listener, and a function `generateAlt` to query the images and create the Alt attributes.
+
 This extension is pre-configured to make the API calls to my Azure Vision middleware API. If you would like to use your own API, you can change the `"http://147.182.138.175:3000/generateAlt"` link in `visionhelper.js` to point to your own hosted [Azure API](https://github.com/HullRyan/ITIS-6177-Final-Project). You will also need to update the `manifest.json` permissions section to include the new URL in order to make callouts to it.
 
 This extension is built using [web-ext](https://extensionworkshop.com/documentation/develop/getting-started-with-web-ext/) and [webextension-polyfill](https://github.com/mozilla/webextension-polyfill).  
