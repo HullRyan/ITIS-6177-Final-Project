@@ -47,7 +47,7 @@ This main API application will also serve an Example Page of Images with missing
 
 For more detailed information about the API's endpoints and their parameters, see the [Swagger documentation page](http://147.182.138.175:3000/docs).
 
-- **Note** that the API is rate limited to 10 sucessful requests per minute. If you hit this limit and see error responses, please wait a short bit and try again.
+- **Note** that the API is rate limited to 10 successful requests per minute. If you hit this limit and see error responses, please wait a short bit and try again.
 
 ## Installation/Self Hosting
 
