@@ -24,6 +24,8 @@ This is an extra mini-project serving as a proof of concept consuming my [Azure 
 
 ## Demo
 
+Below I refresh the `/example` webpage, showing the lack of Alt descriptions for the images, which automatically get generated in a fraction of a second.
+
 ![Demo](./demo.gif)
 
 ## Usage
